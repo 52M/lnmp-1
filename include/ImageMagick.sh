@@ -5,7 +5,7 @@
 # Notes: OneinStack for CentOS/RadHat 5+ Debian 6+ and Ubuntu 12+
 #
 # Project home page:
-#       http://oneinstack.com
+#       https://oneinstack.com
 #       https://github.com/lj2007331/oneinstack
 
 Install_ImageMagick() {
@@ -15,7 +15,7 @@ src_url=http://mirrors.linuxeye.com/oneinstack/src/ImageMagick-$ImageMagick_vers
 tar xzf ImageMagick-$ImageMagick_version.tar.gz
 cd ImageMagick-$ImageMagick_version
 ./configure --prefix=/usr/local/imagemagick --enable-shared --enable-static
-make && make install
+make -j ${THREAD} && make install
 cd ..
 rm -rf ImageMagick-$ImageMagick_version
 cd ..
@@ -37,7 +37,7 @@ if [ -e "$php_install_dir/bin/phpize" ];then
     export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
     $php_install_dir/bin/phpize
     ./configure --with-php-config=$php_install_dir/bin/php-config --with-imagick=/usr/local/imagemagick
-    make && make install
+    make -j ${THREAD} && make install
     cd ..
     rm -rf imagick-$imagick_version
 

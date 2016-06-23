@@ -5,7 +5,7 @@
 # Notes: OneinStack for CentOS/RadHat 5+ Debian 6+ and Ubuntu 12+
 #
 # Project home page:
-#       http://oneinstack.com
+#       https://oneinstack.com
 #       https://github.com/lj2007331/oneinstack
 
 Install_GraphicsMagick() {
@@ -15,7 +15,7 @@ src_url=http://downloads.sourceforge.net/project/graphicsmagick/graphicsmagick/$
 tar xzf GraphicsMagick-$GraphicsMagick_version.tar.gz
 cd GraphicsMagick-$GraphicsMagick_version
 ./configure --prefix=/usr/local/graphicsmagick --enable-shared --enable-static
-make && make install
+make -j ${THREAD} && make install
 cd ..
 rm -rf GraphicsMagick-$GraphicsMagick_version
 cd ..
@@ -37,7 +37,7 @@ if [ -e "$php_install_dir/bin/phpize" ];then
     export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
     $php_install_dir/bin/phpize
     ./configure --with-php-config=$php_install_dir/bin/php-config --with-gmagick=/usr/local/graphicsmagick
-    make && make install
+    make -j ${THREAD} && make install
     cd ..
     rm -rf gmagick-$gmagick_version
 
@@ -48,7 +48,7 @@ extension=gmagick.so
 EOF
         [ "$Apache_version" != '1' -a "$Apache_version" != '2' ] && service php-fpm restart || service httpd restart
     else
-        echo "${CFAILURE}PHP Gmagick module install failed, Please contact the author! ${CEND}"
+        echo "${CFAILURE}PHP gmagick module install failed, Please contact the author! ${CEND}"
     fi
 fi
 cd ..

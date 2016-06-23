@@ -5,7 +5,7 @@
 # Notes: OneinStack for CentOS/RadHat 5+ Debian 6+ and Ubuntu 12+
 #
 # Project home page:
-#       http://oneinstack.com
+#       https://oneinstack.com
 #       https://github.com/lj2007331/oneinstack
 
 Install_PureFTPd() {
@@ -20,7 +20,7 @@ id -u $run_user >/dev/null 2>&1
 cd pure-ftpd-$pureftpd_version
 [ ! -d "$pureftpd_install_dir" ] && mkdir -p $pureftpd_install_dir
 ./configure --prefix=$pureftpd_install_dir CFLAGS=-O2 --with-puredb --with-quotas --with-cookie --with-virtualhosts --with-virtualchroot --with-diraliases --with-sysquotas --with-ratios --with-altlog --with-paranoidmsg --with-shadow --with-welcomemsg  --with-throttling --with-uploadscript --with-language=english --with-rfc2640
-make && make install
+make -j ${THREAD} && make install
 if [ -e "$pureftpd_install_dir/sbin/pure-ftpwho" ];then
     echo "${CSUCCESS}Pure-Ftp install successfully! ${CEND}"
     [ ! -e "$pureftpd_install_dir/etc" ] && mkdir $pureftpd_install_dir/etc

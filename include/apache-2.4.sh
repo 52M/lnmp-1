@@ -5,7 +5,7 @@
 # Notes: OneinStack for CentOS/RadHat 5+ Debian 6+ and Ubuntu 12+
 #
 # Project home page:
-#       http://oneinstack.com
+#       https://oneinstack.com
 #       https://github.com/lj2007331/oneinstack
 
 Install_Apache-2-4() {
@@ -18,7 +18,7 @@ src_url=http://mirrors.linuxeye.com/apache/httpd/httpd-$apache_4_version.tar.gz 
 tar xzf pcre-$pcre_version.tar.gz
 cd pcre-$pcre_version
 ./configure
-make && make install
+make -j ${THREAD} && make install
 cd ..
 
 id -u $run_user >/dev/null 2>&1
@@ -33,7 +33,7 @@ cd httpd-$apache_4_version
 /bin/cp -R ../apr-util-$apr_util_version ./srclib/apr-util
 [ "$ZendGuardLoader_yn" == 'y' -o "$ionCube_yn" == 'y' ] && MPM=prefork || MPM=worker
 ./configure --prefix=$apache_install_dir --enable-headers --enable-deflate --enable-mime-magic --enable-so --enable-rewrite --enable-ssl --with-ssl --enable-expires --enable-static-support --enable-suexec --disable-userdir --with-included-apr --with-mpm=$MPM --disable-userdir
-make && make install
+make -j ${THREAD} && make install
 if [ -e "$apache_install_dir/conf/httpd.conf" ];then
     echo "${CSUCCESS}Apache install successfully! ${CEND}"
     cd ..
@@ -71,6 +71,7 @@ sed -i "s@AddType\(.*\)Z@AddType\1Z\n    AddType application/x-httpd-php .php .p
 sed -i "s@#AddHandler cgi-script .cgi@AddHandler cgi-script .cgi .pl@" $apache_install_dir/conf/httpd.conf
 sed -i 's@^#LoadModule rewrite_module@LoadModule rewrite_module@' $apache_install_dir/conf/httpd.conf
 sed -i 's@^#LoadModule\(.*\)mod_deflate.so@LoadModule\1mod_deflate.so@' $apache_install_dir/conf/httpd.conf
+sed -i 's@^#LoadModule\(.*\)mod_ssl.so@LoadModule\1mod_ssl.so@' $apache_install_dir/conf/httpd.conf
 sed -i 's@DirectoryIndex index.html@DirectoryIndex index.html index.php@' $apache_install_dir/conf/httpd.conf
 sed -i "s@^DocumentRoot.*@DocumentRoot \"$wwwroot_dir/default\"@" $apache_install_dir/conf/httpd.conf
 sed -i "s@^<Directory \"$apache_install_dir/htdocs\">@<Directory \"$wwwroot_dir/default\">@" $apache_install_dir/conf/httpd.conf

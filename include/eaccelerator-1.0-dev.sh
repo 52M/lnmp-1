@@ -5,7 +5,7 @@
 # Notes: OneinStack for CentOS/RadHat 5+ Debian 6+ and Ubuntu 12+
 #
 # Project home page:
-#       http://oneinstack.com
+#       https://oneinstack.com
 #       https://github.com/lj2007331/oneinstack
 
 Install_eAccelerator-1-0-dev() {
@@ -18,7 +18,7 @@ cd eaccelerator-eaccelerator-42067ac
 make clean
 $php_install_dir/bin/phpize
 ./configure --enable-eaccelerator=shared --with-php-config=$php_install_dir/bin/php-config
-make && make install
+make -j ${THREAD} && make install
 if [ -f "`$php_install_dir/bin/php-config --extension-dir`/eaccelerator.so" ];then
     mkdir /var/eaccelerator_cache;chown -R ${run_user}.$run_user /var/eaccelerator_cache
     cat > $php_install_dir/etc/php.d/ext-eaccelerator.ini << EOF
